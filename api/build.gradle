@@ -1,0 +1,46 @@
+
+apply plugin: "war"
+apply plugin: 'org.akhikhl.gretty'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'org.akhikhl.gretty:gretty:1.4.0'
+    }
+}
+
+
+[compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
+
+
+repositories {
+    maven {
+        url 'http://repo1.maven.org/maven2'
+    }
+}
+
+dependencies {
+    compile project(':core')
+    compile(
+            "org.springframework:spring-webmvc:$springVersion",
+    )
+}
+gretty {
+    debugPort = 5005      // 默认
+    debugSuspend = true   // 默认
+    port = 9090
+    contextPath = '/'
+    afterEvaluate {
+        appRunDebug {
+            debugPort = 5005
+            debugSuspend = true
+        }
+    }
+}
+
+
+
+

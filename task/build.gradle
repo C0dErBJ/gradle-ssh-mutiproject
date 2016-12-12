@@ -1,0 +1,8 @@
+dependencies {
+    compile project(':core')
+    compile(
+            "org.quartz-scheduler:quartz-jobs:2.2.1",
+            "org.quartz-scheduler:quartz:2.2.1"
+    )
+}
+

@@ -1,0 +1,18 @@
+dependencies {
+    compile(
+            "org.springframework:spring-orm:$springVersion",
+            "org.springframework.data:spring-data-jpa:1.10.4.RELEASE",
+            "org.hibernate:hibernate-entitymanager:$hibernateVersion",
+            "org.hibernate:hibernate-c3p0:$hibernateVersion",
+            "org.hibernate:hibernate-ehcache:$hibernateVersion",
+            "org.hibernate:hibernate-core:$hibernateVersion",
+            "org.springframework:spring-test:$springVersion",
+            "mysql:mysql-connector-java:5.1.22",
+            "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Draft-16",
+            "com.squareup.okhttp3:okhttp:3.4.1",
+    )
+}
+
+
+
+

@@ -1,0 +1,3 @@
+rootProject.name = 'QJZ'
+include "app","api","core","task"
+

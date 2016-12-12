@@ -1,0 +1,17 @@
+{
+  "express": {
+    "url": "http://jisukdcx.market.alicloudapi.com/express/query?number=${number}&type=${auto}",
+    "method": "get",
+    "contentType": "application/json"
+  },
+  "expresscompany": {
+    "url": "http://jisukdcx.market.alicloudapi.com/express/type",
+    "method": "get",
+    "contentType": "application/json"
+  },
+  "order": {
+    "url": "http://139.224.186.106:83/ebcCustomer.asmx",
+    "method": "post",
+    "contentType": "text/xml"
+  }
+}
