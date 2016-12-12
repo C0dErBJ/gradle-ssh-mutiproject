@@ -20,7 +20,7 @@
        default-lazy-init="true">
 
     <!-- 隐式注册了AutowiredAnnotationBeanPostProcessor和CommonAnnotationBeanPostProcessor -->
-    <context:component-scan base-package="com.ZP">
+    <context:component-scan base-package="com.CD">
     </context:component-scan>
 
     <task:annotation-driven/>
@@ -51,8 +51,8 @@
     </bean>
 
     <aop:config proxy-target-class="true">
-        <aop:pointcut id="service" expression="execution(* com.ZP.service.impl.*ServiceImpl.*(..))"/>
-        <aop:pointcut id="logpc" expression="execution(* com.ZP.service.*Impl.*(..))"/>
+        <aop:pointcut id="service" expression="execution(* com.CD.service.impl.*ServiceImpl.*(..))"/>
+        <aop:pointcut id="logpc" expression="execution(* com.CD.service.*Impl.*(..))"/>
         <aop:advisor pointcut-ref="service" advice-ref="txAdvice"/>
     </aop:config>
 
@@ -71,7 +71,7 @@
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="persistenceUnitName" value="${jdbc.schema}"/>
-        <property name="packagesToScan" value="com.ZP"/>
+        <property name="packagesToScan" value="com.CD"/>
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
                 <property name="database" value="MYSQL"/>
@@ -89,7 +89,7 @@
         <property name="entityManagerFactory" ref="entityManagerFactory">
         </property>
         <property name="jpaDialect">
-            <bean class="com.ZP.util.HibernateJpaIsolationSupportDialect"/>
+            <bean class="com.CD.util.HibernateJpaIsolationSupportDialect"/>
         </property>
     </bean>
 

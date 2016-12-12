@@ -1,13 +1,8 @@
-import com.ZP.dao.ProvinceDAO;
-import com.ZP.service.impl.KDSerivceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.annotation.Resource;
 
 /**
  * ProjectName: QJZ
@@ -21,17 +16,9 @@ import javax.annotation.Resource;
 @WebAppConfiguration
 @ContextConfiguration("classpath:spring-hibernate.xml")
 public class test {
-    @Resource
-    ProvinceDAO provinceDAO;
-
-    @Resource
-    KDSerivceImpl kdSerivce;
-
     @Test
-    @Transactional
     public void select() {
-        //
-    }
 
+    }
 
 }

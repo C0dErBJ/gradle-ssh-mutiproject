@@ -13,7 +13,7 @@
     <!-- 设置使用注解的类所在的jar包 -->
 
 
-    <context:component-scan base-package="com.ZP.task"/>
+    <context:component-scan base-package="com.CD.task"/>
 
     <task:annotation-driven scheduler="myScheduler" mode="proxy"/>
     <task:scheduler id="myScheduler" pool-size="10"/>

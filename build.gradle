@@ -7,12 +7,12 @@ subprojects {
             url 'http://repo1.maven.org/maven2'
         }
     }
-//定义版本号
     ext {
         springVersion = '4.3.3.RELEASE'
         slf4jVersion = '1.7.21'
         hibernateVersion = '5.2.4.Final'
     }
+
     apply plugin: 'java'
     apply plugin: 'idea'
     dependencies {
