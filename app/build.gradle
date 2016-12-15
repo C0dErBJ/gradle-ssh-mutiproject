@@ -72,6 +72,6 @@ task proWar(type: War, dependsOn: classes) {
     destinationDir = file("$buildDir/libs")
 }
 
-task release(dependsOn: [devWar, proWar])
+task release(dependsOn: [proWar, testWar])
 
 
