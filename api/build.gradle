@@ -64,14 +64,14 @@ task testWar(type: War, dependsOn: classes) {
     destinationDir = file("$buildDir/libs")
 }
 
-task devWar(type: War, dependsOn: classes) {
+task proWar(type: War, dependsOn: classes) {
     baseName = 'pro'
     classpath = classpath - files("$buildDir/resources/main")
     classpath = classpath + files("$projectDir/src/main/env/pro")
     destinationDir = file("$buildDir/libs")
 }
 
-task release(dependsOn: [devWar, testWar])
+task release(dependsOn: [devWar, proWar])
 
 
 
