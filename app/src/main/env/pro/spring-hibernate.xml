@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.1.xsd
+	http://www.springframework.org/schema/task
+	http://www.springframework.org/schema/task/spring-task-3.1.xsd"
+       default-lazy-init="true">
+
+    <!-- 隐式注册了AutowiredAnnotationBeanPostProcessor和CommonAnnotationBeanPostProcessor -->
+    <context:component-scan base-package="com.CD">
+    </context:component-scan>
+
+    <task:annotation-driven/>
+
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+    <!-- ========================= GENERAL DEFINITIONS ========================= -->
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:jdbc.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="dataSource" class="org.logicalcobwebs.proxool.ProxoolDataSource">
+        <property name="driver" value="${jdbc.driverClassName}"/>
+        <property name="driverUrl" value="${jdbc.url}"/>
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="alias" value="MYSQL"/>
+        <property name="maximumActiveTime" value="300000"/>
+        <property name="prototypeCount" value="0"/>
+        <property name="maximumConnectionCount" value="150"/>
+        <property name="minimumConnectionCount" value="2"/>
+        <property name="simultaneousBuildThrottle" value="50"/>
+        <property name="houseKeepingTestSql" value="select CURRENT_DATE"/>
+    </bean>
+
+    <aop:config proxy-target-class="true">
+        <aop:pointcut id="service" expression="execution(* com.CD.service.impl.*ServiceImpl.*(..))"/>
+        <aop:pointcut id="logpc" expression="execution(* com.CD.service.*Impl.*(..))"/>
+        <aop:advisor pointcut-ref="service" advice-ref="txAdvice"/>
+    </aop:config>
+
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="create*" rollback-for="Exception"/>
+            <tx:method name="find*" read-only="true"/>
+            <tx:method name="get*" read-only="true"/>
+            <tx:method name="query*" read-only="true"/>
+            <tx:method name="page*" read-only="true"/>
+            <tx:method name="*" rollback-for="Exception"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!-- JPA EntityManagerFactoryBean for EntityManager -->
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="persistenceUnitName" value="${jdbc.schema}"/>
+        <property name="packagesToScan" value="com.CD"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="database" value="MYSQL"/>
+                <property name="generateDdl" value="false"/>
+                <property name="showSql" value="true"/>
+            </bean>
+        </property>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+
+    <!-- Transaction manager for JPA -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory">
+        </property>
+        <property name="jpaDialect">
+            <bean class="com.CD.util.HibernateJpaIsolationSupportDialect"/>
+        </property>
+    </bean>
+
+</beans>

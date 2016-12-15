@@ -1,5 +1,3 @@
-
-
 apply plugin: "war"
 apply plugin: 'org.akhikhl.gretty'
 
@@ -43,4 +41,37 @@ gretty {
         }
     }
 }
+
+//复制web依赖的core项目生成代码
+task addDependenceClasses(type: Copy) {
+    delete project(":app").buildDir
+    // print file(file(project(":core").buildDir).absolutePath + "/classes/main")
+    println project(":app").resources.text
+    from file(project(":core").buildDir).absolutePath + "/classes"
+    into project(":app").buildDir.absolutePath + "/classes/main"
+
+    from file(project(":core").buildDir).absolutePath + "/resources"
+    into project(":app").buildDir.absolutePath + "/classes"
+    // exclude { details -> (details.file.name == "mybatisGenerator.xml") }
+}
+
+war {
+    dependsOn addDependenceClasses
+}
+task testWar(type: War, dependsOn: classes) {
+    baseName = 'test'
+    classpath = classpath - files("$buildDir/resources/main")
+    classpath = classpath + files("$projectDir/src/main/env/test")
+    destinationDir = file("$buildDir/libs")
+}
+
+task devWar(type: War, dependsOn: classes) {
+    baseName = 'pro'
+    classpath = classpath - files("$buildDir/resources/main")
+    classpath = classpath + files("$projectDir/src/main/env/pro")
+    destinationDir = file("$buildDir/libs")
+}
+
+task release(dependsOn: [devWar, testWar])
+
 
